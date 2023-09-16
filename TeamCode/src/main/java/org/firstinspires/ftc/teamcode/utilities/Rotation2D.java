@@ -46,7 +46,6 @@ public class Rotation2D {
     }
 
     /**
-     * Returns the currently stored angle in degrees
      * @return the currently stored angle in degrees
      */
     public double getAngleDegrees() {
@@ -54,7 +53,6 @@ public class Rotation2D {
     }
 
     /**
-     * returns the currently stored angle in radians
      * @return the currently stored angle in radians
      */
     public double getAngleRadians() {
