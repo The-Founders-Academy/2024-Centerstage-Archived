@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.utilities.Pose2D;
 import org.firstinspires.ftc.teamcode.utilities.Rotation2D;
@@ -17,12 +18,12 @@ public class XDrive {
     // Declare member variables
     private Pose2D m_robotPose;
 
-    public XDrive(DcMotor frontLeft, DcMotor frontRight, DcMotor backLeft, DcMotor backRight, Pose2D currentPose) {
+    public XDrive(String frontLeftName, String frontRightName, String backLeftname, String backRightName, Pose2D currentPose, HardwareMap hardwareMap) {
        // Initialize hardware
-       this.frontLeft = frontLeft;
-       this.frontRight = frontRight;
-       this.backLeft = backLeft;
-       this.backRight = backRight;
+       this.frontLeft = hardwareMap.get(DcMotor.class, frontLeftName);
+       this.frontRight = hardwareMap.get(DcMotor.class, frontRightName);
+       this.backLeft = hardwareMap.get(DcMotor.class, backLeftname);
+       this.backRight = hardwareMap.get(DcMotor.class, backRightName);
 
        // We want to set the motor directions so that pressing forward moves the robot forward
        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -37,8 +38,6 @@ public class XDrive {
        } else {
            this.m_robotPose = new Pose2D(0, 0, new Rotation2D(0));
        }
-
-
     }
 
     public void fieldRelativeDrive(double velocity, double linearAngle, double angularSpeed) {
@@ -48,11 +47,7 @@ public class XDrive {
         double powerX = velocity * Math.cos(robotAngle);
         double powerY = velocity * Math.sin(robotAngle);
 
-        // This is last year's code. It must be adapted to this year's drivetrain
-        /* front.setPower(pFB - angularSpeed);
-        back.setPower(pFB + angularSpeed);
-        left.setPower(pLR - angularSpeed);
-        right.setPower(pLR + angularSpeed); */
+        // TO-DO: figure out power for each wheel
     }
 
     public void driveToPosition(Pose2D targetPose) {
