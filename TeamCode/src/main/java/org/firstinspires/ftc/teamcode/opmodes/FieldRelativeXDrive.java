@@ -11,16 +11,19 @@ public class FieldRelativeXDrive extends OpMode {
 
     @Override
     public void init() {
-        m_drive = new XDrive("frontLeft", "frontRight", "backleft", "backRight", null, hardwareMap);
+        m_drive = new XDrive(null, hardwareMap);
     }
 
     @Override
     public void loop() {
+        // Calculate velocity and drive angle from controller inputs
         double velocity = Math.sqrt(Math.pow(-gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2));
         double velocityAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x);
         double angularVelocity = gamepad1.right_stick_x;
 
-        m_drive.fieldRelativeDrive(velocity, velocityAngle, angularVelocity);
+        m_drive.fieldRelativeDrive(velocity, velocityAngle, angularVelocity); // Drive the robot
+
+
 
         // Telemetry updates down here
 

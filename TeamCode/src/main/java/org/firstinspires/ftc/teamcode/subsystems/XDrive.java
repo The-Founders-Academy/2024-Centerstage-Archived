@@ -18,14 +18,14 @@ public class XDrive {
     // Declare member variables
     private Pose2D m_robotPose;
 
-    public XDrive(String frontLeftName, String frontRightName, String backLeftname, String backRightName, Pose2D currentPose, HardwareMap hardwareMap) {
+    public XDrive(Pose2D currentPose, HardwareMap hardwareMap) {
        // Initialize hardware
-       this.frontLeft = hardwareMap.get(DcMotor.class, frontLeftName);
-       this.frontRight = hardwareMap.get(DcMotor.class, frontRightName);
-       this.backLeft = hardwareMap.get(DcMotor.class, backLeftname);
-       this.backRight = hardwareMap.get(DcMotor.class, backRightName);
+       this.frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+       this.frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+       this.backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+       this.backRight = hardwareMap.get(DcMotor.class, "backRight");
 
-       // We want to set the motor directions so that pressing forward moves the robot forward
+       // We want to set the motor directions so that applying positive power to all wheels moves the robot forward
        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
