@@ -48,6 +48,14 @@ public class XDrive {
         double powerY = velocity * Math.sin(robotAngle);
 
         // TO-DO: figure out power for each wheel
+        frontLeft.setPower(powerX);
+        backRight.setPower(powerX);
+
+        backLeft.setPower(powerY);
+        frontRight.setPower(powerY);
+
+
+
     }
 
     public void driveToPosition(Pose2D targetPose) {
