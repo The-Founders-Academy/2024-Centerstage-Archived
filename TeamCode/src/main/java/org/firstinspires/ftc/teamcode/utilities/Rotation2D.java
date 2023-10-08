@@ -67,9 +67,15 @@ public class Rotation2D {
         return new Rotation2D(m_angleDegrees - other.getAngleDegrees());
     }
 
-    public static Rotation2D fromDegrees(double degrees) {
-        return new Rotation2D(Rotation2D.toRadians(degrees));
+    /**
+     * @param target the rotation2D to perform this operation on
+     * @return An equivalent angle between 0 and 360 degrees
+     */
+    public Rotation2D normalizeDegrees(Rotation2D target) {
+        return new Rotation2D(((target.getAngleDegrees() % 360) + 360) % 360);
     }
+
+    public static Rotation2D fromDegrees(double degrees) {return new Rotation2D(Rotation2D.toRadians(degrees)); }
 
     public static Rotation2D fromRadians(double radians) {
         return new Rotation2D(radians);

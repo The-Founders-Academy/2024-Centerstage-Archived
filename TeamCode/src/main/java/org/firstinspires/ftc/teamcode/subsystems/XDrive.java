@@ -54,8 +54,6 @@ public class XDrive {
         backLeft.setPower(powerY);
         frontRight.setPower(powerY);
 
-
-
     }
 
     public void driveToPosition(Pose2D targetPose) {
