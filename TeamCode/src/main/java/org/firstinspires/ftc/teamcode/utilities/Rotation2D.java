@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.utilities;
 
+import org.checkerframework.checker.units.qual.Angle;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 public class Rotation2D {
     private double m_angleRadians;
     private double m_angleDegrees;
@@ -8,9 +11,15 @@ public class Rotation2D {
      * A constructor that takes in one parameter
      * @param angle the angle, in radians, that this Rotation2D object should represent
      */
-    public Rotation2D(double angle) {
-        this.m_angleRadians = angle;
-        this.m_angleDegrees = Math.toDegrees(angle);
+    public Rotation2D(double angle, AngleUnit unit) {
+        if(unit == AngleUnit.RADIANS) {
+            this.m_angleRadians = angle;
+            this.m_angleDegrees = Math.toDegrees(angle);
+        } else {
+            this.m_angleDegrees = angle;
+            this.m_angleRadians = Rotation2D.toRadians(angle);
+        }
+
     }
 
     /**
@@ -60,11 +69,11 @@ public class Rotation2D {
     }
 
     public Rotation2D plus(Rotation2D other) {
-        return new Rotation2D(m_angleDegrees + other.getAngleDegrees());
+        return new Rotation2D(m_angleDegrees + other.getAngleDegrees(), AngleUnit.DEGREES);
     }
 
     public Rotation2D minus(Rotation2D other) {
-        return new Rotation2D(m_angleDegrees - other.getAngleDegrees());
+        return new Rotation2D(m_angleDegrees - other.getAngleDegrees(), AngleUnit.DEGREES);
     }
 
     /**
@@ -72,12 +81,10 @@ public class Rotation2D {
      * @return An equivalent angle between 0 and 360 degrees
      */
     public Rotation2D normalizeDegrees(Rotation2D target) {
-        return new Rotation2D(((target.getAngleDegrees() % 360) + 360) % 360);
+        return new Rotation2D(((target.getAngleDegrees() % 360) + 360) % 360, AngleUnit.DEGREES);
     }
 
-    public static Rotation2D fromDegrees(double degrees) {return new Rotation2D(Rotation2D.toRadians(degrees)); }
+    public static Rotation2D fromDegrees(double degrees) { return new Rotation2D(Rotation2D.toRadians(degrees), AngleUnit.DEGREES); }
 
-    public static Rotation2D fromRadians(double radians) {
-        return new Rotation2D(radians);
-    }
+    public static Rotation2D fromRadians(double radians) { return new Rotation2D(radians, AngleUnit.RADIANS); }
     }
