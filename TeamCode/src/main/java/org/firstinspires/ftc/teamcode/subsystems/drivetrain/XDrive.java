@@ -34,7 +34,7 @@ public class XDrive {
        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-       backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+       backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
        // If currentPose is equal to null, it likely means we are testing the robot and not actually on a field competing
        if(currentPose != null) {
@@ -58,11 +58,11 @@ public class XDrive {
         double powerFRBL = velocity * Math.sin(robotAngle - PI/4);
 
         // TO-DO: figure out power for each wheel
-        frontLeft.setPower(powerFLBR);
-        backRight.setPower(powerFLBR);
+        frontLeft.setPower(powerFLBR + angularSpeed);
+        backRight.setPower(powerFLBR - angularSpeed);
 
-        backLeft.setPower(powerFRBL);
-        frontRight.setPower(powerFRBL);
+        backLeft.setPower(powerFRBL + angularSpeed);
+        frontRight.setPower(powerFRBL - angularSpeed);
 
         m_robotPose.setRotation(new Rotation2D(m_odometry.getYawDegrees(), AngleUnit.DEGREES));
 
