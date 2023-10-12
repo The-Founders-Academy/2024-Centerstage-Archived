@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems.drivetrain;
 
+import static java.lang.Math.PI;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -52,15 +54,28 @@ public class XDrive {
         double powerX = velocity * Math.cos(robotAngle);
         double powerY = velocity * Math.sin(robotAngle);
 
-        // TO-DO: figure out power for each wheel
-        frontLeft.setPower(powerX);
-        backRight.setPower(powerX);
+        double powerFLBR = velocity * Math.cos(robotAngle - PI/4 );
+        double powerFRBL = velocity * Math.sin(robotAngle - PI/4);
 
-        backLeft.setPower(powerY);
-        frontRight.setPower(powerY);
+        // TO-DO: figure out power for each wheel
+        frontLeft.setPower(powerFLBR);
+        backRight.setPower(powerFLBR);
+
+        backLeft.setPower(powerFRBL);
+        frontRight.setPower(powerFRBL);
 
         m_robotPose.setRotation(new Rotation2D(m_odometry.getYawDegrees(), AngleUnit.DEGREES));
 
+    }
+
+    public void robotRelativeDrive(double velocity, double angleRadians) {
+        double powerFLBR = velocity * Math.cos(angleRadians - PI/4 );
+        double powerFRBL = velocity * Math.sin(angleRadians - PI/4);
+
+        frontLeft.setPower(powerFLBR);
+        backRight.setPower(powerFLBR);
+        frontRight.setPower(powerFRBL);
+        backLeft.setPower(powerFRBL);
     }
 
     public void driveToPosition(Pose2D targetPose) {
