@@ -3,7 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
 public class Constants {
-    // TO-DO: Revise these when we know how the 2024 robot's control hub is oriented
-    public static final RevHubOrientationOnRobot.LogoFacingDirection LogoOrientation = null;
-    public static final RevHubOrientationOnRobot.UsbFacingDirection  UsbOrientation = null;
+    public static class XDriveConstants {
+        public static final double PowerToVelocityInchesPerSecond = 1; // If we apply a power of 1 to all motors, how fast do we move?
+    }
+
+    public static class AprilTagConstants {
+
+    }
 }
