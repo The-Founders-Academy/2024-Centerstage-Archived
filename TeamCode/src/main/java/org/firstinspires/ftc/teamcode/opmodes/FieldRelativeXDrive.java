@@ -16,7 +16,14 @@ public class FieldRelativeXDrive extends OpMode {
     @Override
     public void init() {
         m_drive = new XDrive(null, hardwareMap);
-        timeElapsedSinceLastLoop = () -> getRuntime() - previousTime;
+        timeElapsedSinceLastLoop = new Supplier<Double>() {
+            @Override
+            public Double get() {
+                double tempPreviousTime = previousTime;
+                previousTime = getRuntime();
+                return getRuntime() - tempPreviousTime;
+            }
+        };
     }
 
     @Override
@@ -28,8 +35,10 @@ public class FieldRelativeXDrive extends OpMode {
 
         m_drive.fieldRelativeDrive(velocity, velocityAngle, angularVelocity, timeElapsedSinceLastLoop.get()); // Drive the robot
 
-
         // Telemetry updates down here
-
+        telemetry.addData("robotPoseX", m_drive.getRobotPose().getTranslation().getX());
+        telemetry.addData("robotPoseY", m_drive.getRobotPose().getTranslation().getY());
+        telemetry.addData("headingDegrees", m_drive.getRobotPose().getRotation().getAngleDegrees());
+        telemetry.update();
     }
 }

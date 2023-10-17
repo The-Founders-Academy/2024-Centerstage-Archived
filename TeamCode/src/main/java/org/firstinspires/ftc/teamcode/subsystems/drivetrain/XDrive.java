@@ -83,4 +83,8 @@ public class XDrive {
         m_robotPose.getTranslation().add(displacement);
     }
 
+    public Pose2D getRobotPose() {
+        return m_robotPose;
+    }
+
 }
