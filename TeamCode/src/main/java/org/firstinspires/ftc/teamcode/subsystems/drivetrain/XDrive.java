@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Vision;
 import org.firstinspires.ftc.teamcode.utilities.Pose2D;
 import org.firstinspires.ftc.teamcode.utilities.Rotation2D;
@@ -79,7 +80,7 @@ public class XDrive {
     }
 
     private void estimatePositionFromWheelPowers(double timeSinceLastLoop, double velocityX, double velocityY) {
-        Translation2D displacement = new Translation2D(velocityX * timeSinceLastLoop, velocityY * timeSinceLastLoop); // Speed * time along both the x and y axis
+        Translation2D displacement = new Translation2D(velocityX * Constants.XDriveConstants.PowerToVelocityInchesPerSecond * timeSinceLastLoop, velocityY * Constants.XDriveConstants.PowerToVelocityInchesPerSecond * timeSinceLastLoop); // Speed * time along both the x and y axis
         m_robotPose.getTranslation().add(displacement);
     }
 
