@@ -25,7 +25,7 @@ public class FieldRelativeXDrive extends OpMode {
 
         // m_arm.rotateArm(Arm.Direction.IN, 1);
         m_drive.fieldRelativeDrive(velocity, velocityAngle, angularVelocity);
-
+        m_arm.rotateShoulder(Arm.Direction.OUT, gamepad1.a ? 1 : 0);
         // Telemetry updates down here
 
     }

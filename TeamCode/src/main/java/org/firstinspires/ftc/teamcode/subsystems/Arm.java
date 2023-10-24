@@ -12,7 +12,7 @@ public class Arm {
     }
 
     public Arm(HardwareMap hardwareMap) {
-        shoulder = hardwareMap.get(DcMotor.class, "armShoulder");
+        shoulder = hardwareMap.get(DcMotor.class, "shoulder");
 
         // There is some extra setup needed for shoulder. We use DcMotor in other classes, so try to look at them to see what's missing
         // HINT: setShoulderSpeed(speed) from the pseudocode below should rotate the arm away from the robot. We probably need to test this physically before we finish the code, but give it a try by guessing first
@@ -20,12 +20,15 @@ public class Arm {
     }
 
     public void rotateShoulder(Direction direction, double speed) {
-        /*
-        Pseudocode
-        if direction is out:
-            setShoulderSpeed(speed)
-        else:
-            setShoulderSpeed(-speed)
-         */
+
+
+        if (direction == Direction.OUT)
+        {
+            shoulder.setPower(speed);
+
+        } else
+        {
+            shoulder.setPower(-speed);
+        }
     }
 }
