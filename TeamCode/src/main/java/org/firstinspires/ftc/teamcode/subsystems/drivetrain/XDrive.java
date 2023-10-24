@@ -8,8 +8,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.subsystems.Vision;
 import org.firstinspires.ftc.teamcode.utilities.Pose2D;
 import org.firstinspires.ftc.teamcode.utilities.Rotation2D;
+import org.firstinspires.ftc.teamcode.utilities.Translation2D;
 
 public class XDrive {
 
@@ -22,6 +25,7 @@ public class XDrive {
     // Declare member variables
     private Pose2D m_robotPose; // The robot's pose in FIELD coordinates
     private Odometry m_odometry;
+    private Vision m_vision;
 
     public XDrive(Pose2D currentPose, HardwareMap hardwareMap) {
        // Initialize hardware
@@ -43,16 +47,13 @@ public class XDrive {
            this.m_robotPose = new Pose2D(0, 0, new Rotation2D(0, AngleUnit.DEGREES));
        }
 
+       m_vision = new Vision(hardwareMap);
        m_odometry = new Odometry(hardwareMap.get(IMU.class, "imu"));
        m_odometry.resetAngle(); // Make sure the robot always starts with an angular displacement of zero
     }
 
-    public void fieldRelativeDrive(double velocity, double linearAngle, double angularSpeed) {
+    public void fieldRelativeDrive(double velocity, double linearAngle, double angularSpeed, double timeElapsedSinceLastLoop) {
         double robotAngle = linearAngle - m_robotPose.getRotation().getAngleRadians(); // Transform linearAngle to robot coordinates. 0 degree is ALWAYS 3 o'clock.
-
-        // In this case, x and y refer to the x/y directions in the ROBOTS coordinate system
-        double powerX = velocity * Math.cos(robotAngle);
-        double powerY = velocity * Math.sin(robotAngle);
 
         double powerFLBR = velocity * Math.cos(robotAngle - PI/4 );
         double powerFRBL = velocity * Math.sin(robotAngle - PI/4);
@@ -66,19 +67,25 @@ public class XDrive {
 
         m_robotPose.setRotation(new Rotation2D(m_odometry.getYawDegrees(), AngleUnit.DEGREES));
 
-    }
-
-    public void robotRelativeDrive(double velocity, double angleRadians) {
-        double powerFLBR = velocity * Math.cos(angleRadians - PI/4 );
-        double powerFRBL = velocity * Math.sin(angleRadians - PI/4);
-
-        frontLeft.setPower(powerFLBR);
-        backRight.setPower(powerFLBR);
-        frontRight.setPower(powerFRBL);
-        backLeft.setPower(powerFRBL);
+        // If we don't see an april tag, estimate our position
+        if(m_vision.seesAprilTag() == false) {
+            estimatePositionFromWheelPowers(timeElapsedSinceLastLoop, velocity * Math.cos(linearAngle), velocity * Math.sin(linearAngle));
+        } else {
+            m_robotPose = m_vision.getPoseFromAprilTagDetection(m_robotPose); // Use april tag values exclusively so long as we can detect them
+        }
     }
 
     public void driveToPosition(Pose2D targetPose) {
         // TO-DO: Implement this function
     }
+
+    private void estimatePositionFromWheelPowers(double timeSinceLastLoop, double velocityX, double velocityY) {
+        Translation2D displacement = new Translation2D(velocityX * Constants.XDriveConstants.PowerToVelocityInchesPerSecond * timeSinceLastLoop, velocityY * Constants.XDriveConstants.PowerToVelocityInchesPerSecond * timeSinceLastLoop); // Speed * time along both the x and y axis
+        m_robotPose.getTranslation().add(displacement);
+    }
+
+    public Pose2D getRobotPose() {
+        return m_robotPose;
+    }
+
 }

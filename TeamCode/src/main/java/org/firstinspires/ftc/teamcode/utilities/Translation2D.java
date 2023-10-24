@@ -28,4 +28,9 @@ public class Translation2D {
     public void setY(double y) {
         this.m_y = y;
     }
+
+    public void add(Translation2D other) {
+        setX(getX() + other.getX());
+        setX(getY() + other.getY());
+    }
 }
