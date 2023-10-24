@@ -31,4 +31,8 @@ public class Arm {
             shoulder.setPower(-speed);
         }
     }
+
+    public void shoulderStop() {
+        shoulder.setPower(0);
+    }
 }

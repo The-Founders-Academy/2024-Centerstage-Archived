@@ -3,8 +3,9 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.subsystems.XDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
+import org.firstinspires.ftc.teamcode.subsystems.drivetrain.XDrive;
+
 @TeleOp(name="2024 FieldRelativeX", group="Iterative OpMode")
 public class FieldRelativeXDrive extends OpMode {
     private XDrive m_drive;
@@ -12,7 +13,7 @@ public class FieldRelativeXDrive extends OpMode {
 
     @Override
     public void init() {
-        m_drive = new XDrive("frontLeft", "frontRight", "backleft", "backRight", null, hardwareMap);
+        m_drive = new XDrive(null, hardwareMap);
         m_arm = new Arm(hardwareMap);
     }
 
@@ -29,8 +30,14 @@ public class FieldRelativeXDrive extends OpMode {
             m_arm.rotateShoulder(Arm.Direction.IN, 0.5);
         } else if(gamepad2.y == true) {
             m_arm.rotateShoulder(Arm.Direction.OUT, 0.5);
+        } else {
+            m_arm.shoulderStop();
         }
         // Telemetry updates down here
+
+        if(gamepad1.a) {
+            m_drive.resetHeading();
+        }
 
     }
 }

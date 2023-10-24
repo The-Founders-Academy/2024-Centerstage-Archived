@@ -81,4 +81,8 @@ public class XDrive {
     public void driveToPosition(Pose2D targetPose) {
         // TO-DO: Implement this function
     }
+
+    public void resetHeading() {
+        m_odometry.resetAngle();
+    }
 }
