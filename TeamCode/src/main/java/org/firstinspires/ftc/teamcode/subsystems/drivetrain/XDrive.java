@@ -14,6 +14,8 @@ import org.firstinspires.ftc.teamcode.utilities.Pose2D;
 import org.firstinspires.ftc.teamcode.utilities.Rotation2D;
 import org.firstinspires.ftc.teamcode.utilities.Translation2D;
 
+import java.util.function.Supplier;
+
 public class XDrive {
 
     // Declare hardware
@@ -77,6 +79,10 @@ public class XDrive {
 
     public void driveToPosition(Pose2D targetPose) {
         // TO-DO: Implement this function
+    }
+
+    public void resetHeading() {
+        m_odometry.resetAngle();
     }
 
     private void estimatePositionFromWheelPowers(double timeSinceLastLoop, double velocityX, double velocityY) {
