@@ -26,7 +26,7 @@ public class Vision {
         visionPortal = new VisionPortal.Builder()
                 .addProcessor(processor)
                 .setCamera(hardwareMap.get(WebcamName.class, "frontCamera"))
-                .setCameraResolution(new Size(1920, 1080))
+                .setCameraResolution(new Size(960, 720))
                 .build();
     }
 
