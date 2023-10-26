@@ -36,7 +36,6 @@ public class FieldRelativeXDrive extends OpMode {
         double velocityAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x);
         double angularVelocity = gamepad1.right_stick_x;
 
-
         // m_arm.rotateArm(Arm.Direction.IN, 1);
         m_drive.fieldRelativeDrive(velocity, velocityAngle, angularVelocity, timeElapsedSinceLastLoop.get());
         if(gamepad2.a == true) {
